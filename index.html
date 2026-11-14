@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>আমাদের ট্যুর বাজেট - মিরিঞ্জা ও কক্সবাজার</title>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏕️</text></svg>">
+    <!-- Meta tags for social share -->
+    <meta property="og:title" content="আমাদের ট্যুর বাজেট - মিরিঞ্জা ও কক্সবাজার 🏕️🌊">
+    <meta property="og:description" content="মিরিঞ্জা ভ্যালি ও কক্সবাজার ট্যুরের সম্পূর্ণ খরচের হিসাব ও লাইভ বাজেট ক্যালকুলেটর।">
+    <meta property="og:type" content="website">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Hind Siliguri for Bengali & Plus Jakarta Sans for Numbers/English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        body {
+            font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(14, 165, 233, 0.25) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(245, 158, 11, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+        .num-font {
+            font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-border {
+            position: relative;
+            background: rgba(30, 41, 59, 0.85);
+            border-radius: 1.25rem;
+        }
+        .gradient-border::before {
+            content: "";
+            position: absolute;
+            inset: -1.5px;
+            border-radius: 1.35rem;
+            padding: 1.5px;
+            background: linear-gradient(135deg, #10b981, #0ea5e9, #f59e0b);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .item-row {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .item-row:hover {
+            transform: translateY(-2px);
+            background: rgba(51, 65, 85, 0.65);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen pb-12 selection:bg-teal-500 selection:text-white">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 transform -translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-emerald-500 text-slate-950 font-bold px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 border border-emerald-300">
+            <i class="ph-fill ph-check-circle text-xl"></i>
+            <span id="toast-msg">হিসাব কপি করা হয়েছে! এখন বন্ধুদের মেসেঞ্জার বা হোয়াটসঅ্যাপে পেস্ট করুন।</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="max-w-3xl mx-auto px-4 pt-6 sm:pt-10">
+
+        <!-- Hero Banner -->
+        <header class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-600 via-teal-600 to-sky-600 p-6 sm:p-8 shadow-2xl mb-6 border border-white/15">
+            <!-- Decorative background shapes -->
+            <div class="absolute -right-10 -top-10 w-44 h-44 bg-amber-300/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -left-10 -bottom-10 w-44 h-44 bg-sky-300/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/25 backdrop-blur-md text-xs font-medium text-amber-200 mb-3 border border-white/10">
+                        <i class="ph-fill ph-mountains"></i>
+                        <span>পাহাড় + সমুদ্র অভিযান</span>
+                        <span>•</span>
+                        <i class="ph-fill ph-waves"></i>
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+                        মিরিঞ্জা হিল ও কক্সবাজার ট্যুর 🏕️🌊
+                    </h1>
+                    <p class="text-emerald-50/90 text-sm sm:text-base mt-1">
+                        আমি ও আমার ৩ বন্ধুর পরবর্তী ট্যুরের সম্পূর্ণ খরচের হিসাব
+                    </p>
+                </div>
+
+                <!-- Friends Count Badge / Adjuster -->
+                <div class="bg-slate-900/40 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 flex flex-col items-center justify-center min-w-[145px]">
+                    <span class="text-xs text-emerald-100/80 mb-1">ট্যুর মেম্বার (বন্ধু)</span>
+                    <div class="flex items-center gap-3">
+                        <button onclick="changeMembers(-1)" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 active:scale-90 flex items-center justify-center transition text-white" title="মেম্বার কমান">
+                            <i class="ph-bold ph-minus text-sm"></i>
+                        </button>
+                        <div class="text-center">
+                            <span id="member-count-bn" class="text-xl font-bold text-amber-300">৪</span>
+                            <span class="text-sm font-semibold text-white">জন</span>
+                        </div>
+                        <button onclick="changeMembers(1)" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 active:scale-90 flex items-center justify-center transition text-white" title="মেম্বার বাড়ান">
+                            <i class="ph-bold ph-plus text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Summary Cards (Per Person & Group Total) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <!-- Per Person Total Card -->
+            <div class="gradient-border p-5 shadow-xl">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-emerald-400 font-semibold flex items-center gap-1.5">
+                            <i class="ph-fill ph-user-circle text-base"></i> জনপ্রতি মোট খরচ
+                        </span>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-3xl sm:text-4xl font-extrabold text-white num-font" id="per-person-total">৳7,395</span>
+                            <span class="text-xs text-amber-300 font-semibold" id="buffer-indicator"></span>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                        <i class="ph-duotone ph-wallet text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-300">
+                    <span>ফেরার মাধ্যম:</span>
+                    <span id="selected-return-label" class="font-semibold text-emerald-300 bg-emerald-500/10 px-2.5 py-0.5 rounded-lg border border-emerald-500/20">
+                        ট্রেন (৳750)
+                    </span>
+                </div>
+            </div>
+
+            <!-- Group Total Card -->
+            <div class="glass-card rounded-2xl p-5 shadow-xl border border-sky-500/20">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-xs uppercase tracking-wider text-sky-400 font-semibold flex items-center gap-1.5">
+                            <i class="ph-fill ph-users-four text-base"></i> <span id="group-card-title">৪ জনের মোট বাজেট</span>
+                        </span>
+                        <div class="mt-2 flex items-baseline gap-2">
+                            <span class="text-3xl sm:text-4xl font-extrabold text-amber-300 num-font" id="group-total">৳29,580</span>
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-300">
+                        <i class="ph-duotone ph-coins text-2xl"></i>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-slate-700/60 flex items-center justify-between text-xs text-slate-300">
+                    <span>হিসাবের ধরন:</span>
+                    <span id="group-calc-formula" class="num-font text-slate-300">৳7,395 × 4 জন</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Return Ticket Selector (Interactive Switch) -->
+        <section class="glass-card rounded-2xl p-4 sm:p-5 mb-6 shadow-lg">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    <h2 class="text-base sm:text-lg font-bold text-white">ফেরার টিকেট অপশন সিলেক্ট করুন</h2>
+                </div>
+                <span class="text-xs text-slate-400">ট্রেনের টিকেট না পাওয়া গেলে বাসের হিসাব দেখুন</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5" id="return-options">
+                <!-- Option 1: Train 750 -->
+                <button onclick="selectReturn(0)" id="ret-btn-0" class="return-btn text-left p-3.5 rounded-xl border transition-all flex items-center justify-between sm:flex-col sm:items-start gap-2 bg-emerald-500/20 border-emerald-400 text-white shadow-lg">
+                    <div class="flex items-center gap-2">
+                        <i class="ph-fill ph-train text-xl text-emerald-300"></i>
+                        <div>
+                            <div class="font-bold text-sm">ট্রেন টিকেট</div>
+                            <div class="text-[11px] text-slate-300">প্রথম পছন্দ (সাশ্রয়ী)</div>
+                        </div>
+                    </div>
+                    <div class="text-right sm:text-left sm:w-full sm:pt-2 sm:border-t sm:border-white/10 flex sm:justify-between items-center">
+                        <span class="text-xs text-emerald-200 hidden sm:inline">জনপ্রতি:</span>
+                        <span class="text-base font-extrabold num-font text-emerald-300">৳750</span>
+                    </div>
+                </button>
+
+                <!-- Option 2: Bus 1000 -->
+                <button onclick="selectReturn(1)" id="ret-btn-1" class="return-btn text-left p-3.5 rounded-xl border transition-all flex items-center justify-between sm:flex-col sm:items-start gap-2 bg-slate-800/60 border-slate-700 text-slate-300 hover:bg-slate-800">
+                    <div class="flex items-center gap-2">
+                        <i class="ph-fill ph-bus text-xl text-sky-400"></i>
+                        <div>
+                            <div class="font-bold text-sm">বাস (অপশন ১)</div>
+                            <div class="text-[11px] text-slate-400">ট্রেন না পাওয়া গেলে</div>
+                        </div>
+                    </div>
+                    <div class="text-right sm:text-left sm:w-full sm:pt-2 sm:border-t sm:border-white/10 flex sm:justify-between items-center">
+                        <span class="text-xs text-slate-400 hidden sm:inline">জনপ্রতি:</span>
+                        <span class="text-base font-extrabold num-font text-sky-300">৳1,000</span>
+                    </div>
+                </button>
+
+                <!-- Option 3: Bus 1100 -->
+                <button onclick="selectReturn(2)" id="ret-btn-2" class="return-btn text-left p-3.5 rounded-xl border transition-all flex items-center justify-between sm:flex-col sm:items-start gap-2 bg-slate-800/60 border-slate-700 text-slate-300 hover:bg-slate-800">
+                    <div class="flex items-center gap-2">
+                        <i class="ph-fill ph-bus text-xl text-amber-400"></i>
+                        <div>
+                            <div class="font-bold text-sm">বাস (অপশন ২)</div>
+                            <div class="text-[11px] text-slate-400">স্ট্যান্ডার্ড বাস টিকেট</div>
+                        </div>
+                    </div>
+                    <div class="text-right sm:text-left sm:w-full sm:pt-2 sm:border-t sm:border-white/10 flex sm:justify-between items-center">
+                        <span class="text-xs text-slate-400 hidden sm:inline">জনপ্রতি:</span>
+                        <span class="text-base font-extrabold num-font text-amber-300">৳1,100</span>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Category Breakdown Pills -->
+        <section class="grid grid-cols-3 gap-2.5 sm:gap-4 mb-6">
+            <div class="glass-card rounded-2xl p-3 sm:p-4 border-l-4 border-l-sky-400">
+                <div class="flex items-center gap-1.5 text-sky-400 text-xs font-semibold">
+                    <i class="ph-fill ph-bus"></i>
+                    <span>যাতায়াত</span>
+                </div>
+                <div class="text-lg sm:text-xl font-bold text-white num-font mt-1" id="cat-transport">৳2,320</div>
+                <div class="text-[11px] text-slate-400" id="cat-transport-pct">31% খরচ</div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-3 sm:p-4 border-l-4 border-l-emerald-400">
+                <div class="flex items-center gap-1.5 text-emerald-400 text-xs font-semibold">
+                    <i class="ph-fill ph-tent"></i>
+                    <span>থাকা ও ক্যাম্পিং</span>
+                </div>
+                <div class="text-lg sm:text-xl font-bold text-white num-font mt-1" id="cat-stay">৳4,175</div>
+                <div class="text-[11px] text-slate-400" id="cat-stay-pct">56% খরচ</div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-3 sm:p-4 border-l-4 border-l-amber-400">
+                <div class="flex items-center gap-1.5 text-amber-400 text-xs font-semibold">
+                    <i class="ph-fill ph-bowl-food"></i>
+                    <span>খাওয়া-দাওয়া</span>
+                </div>
+                <div class="text-lg sm:text-xl font-bold text-white num-font mt-1" id="cat-food">৳800</div>
+                <div class="text-[11px] text-slate-400">প্যাকেজ বাদে</div>
+            </div>
+        </section>
+
+        <!-- Detailed Expense Breakdown List -->
+        <section class="glass-card rounded-3xl p-4 sm:p-6 mb-6 shadow-xl">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-700/70">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                        <i class="ph-duotone ph-list-checks text-emerald-400 text-2xl"></i>
+                        কোন খাতে কত টাকা খরচ?
+                    </h2>
+                    <p class="text-xs text-slate-400">নিচের প্রতিটি হিসাব ১ জনের (জনপ্রতি) এবং পাশে মোট দলের হিসাব দেওয়া আছে</p>
+                </div>
+                <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                    মোট ১০টি খাত
+                </span>
+            </div>
+
+            <!-- Expense List Container -->
+            <div id="expense-list" class="space-y-2.5">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Extra Pocket Money / Emergency Buffer Toggle -->
+            <div class="mt-5 pt-4 border-t border-dashed border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900/50 p-3.5 rounded-2xl">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
+                        <i class="ph-fill ph-first-aid-kit text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold text-white">হাতখরচ / জরুরি বাফার যোগ করবেন? (ঐচ্ছিক)</div>
+                        <div class="text-xs text-slate-400">চা-নাস্তা বা এক্সট্রা খরচের জন্য জনপ্রতি অতিরিক্ত টাকা</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-1.5 self-end sm:self-center">
+                    <button onclick="setBuffer(0)" id="buf-0" class="px-3 py-1.5 rounded-xl text-xs font-bold num-font bg-purple-500 text-white transition">৳0</button>
+                    <button onclick="setBuffer(300)" id="buf-300" class="px-3 py-1.5 rounded-xl text-xs font-bold num-font bg-slate-800 text-slate-300 hover:bg-slate-700 transition">+৳300</button>
+                    <button onclick="setBuffer(500)" id="buf-500" class="px-3 py-1.5 rounded-xl text-xs font-bold num-font bg-slate-800 text-slate-300 hover:bg-slate-700 transition">+৳500</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Comparison Table of All 3 Scenarios -->
+        <section class="glass-card rounded-2xl p-4 sm:p-5 mb-6">
+            <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-2">
+                <i class="ph-fill ph-arrows-left-right text-amber-400"></i>
+                এক নজরে ৩টি অপশনের তুলনা (<span id="table-member-label">৪ জন</span>)
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-700 text-slate-400 text-xs">
+                            <th class="py-2.5 px-3">ফেরার মাধ্যম</th>
+                            <th class="py-2.5 px-3">টিকেট ভাড়া</th>
+                            <th class="py-2.5 px-3">জনপ্রতি মোট</th>
+                            <th class="py-2.5 px-3 text-right">দলের মোট খরচ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comparison-tbody" class="divide-y divide-slate-800/80 num-font">
+                        <!-- Dynamically rendered -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Share / Copy Buttons for Friends -->
+        <section class="flex flex-col sm:flex-row items-center gap-3">
+            <button onclick="copySummaryForFriends()" class="w-full sm:flex-1 py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-base shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2.5 active:scale-[0.99] transition">
+                <i class="ph-bold ph-copy text-xl"></i>
+                <span>হিসাব কপি করুন (Messenger / WhatsApp)</span>
+            </button>
+            <button onclick="shareViaApp()" class="w-full sm:w-auto py-4 px-5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-emerald-400 font-bold text-base border border-slate-700 flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                <i class="ph-bold ph-share-network text-xl"></i>
+                <span>শেয়ার</span>
+            </button>
+        </section>
+
+        <footer class="text-center text-xs text-slate-500 mt-8">
+            মিরিঞ্জা হিল ও কক্সবাজার ট্যুর প্ল্যানার • বন্ধুদের সাথে শেয়ার করার জন্য তৈরি 🎒
+        </footer>
+    </div>
+
+    <script>
+        // State variables
+        let memberCount = 4;
+        let selectedReturnIndex = 0; // 0: Train 750, 1: Bus 1000, 2: Bus 1100
+        let bufferAmount = 0;
+
+        const returnOptions = [
+            { label: "ট্রেন (৳750)", name: "ট্রেন টিকেট", note: "প্রথম পছন্দ (সাশ্রয়ী)", cost: 750, icon: "ph-train", colorClass: "text-emerald-300" },
+            { label: "বাস (৳1,000)", name: "বাস (অপশন ১)", note: "ট্রেন না পাওয়া গেলে", cost: 1000, icon: "ph-bus", colorClass: "text-sky-300" },
+            { label: "বাস (৳1,100)", name: "বাস (অপশন ২)", note: "স্ট্যান্ডার্ড বাস টিকেট", cost: 1100, icon: "ph-bus", colorClass: "text-amber-300" }
+        ];
+
+        // 10 Base Expense Items (Per Person)
+        const baseExpenses = [
+            {
+                id: 1,
+                title: "বাস ভাড়া (যাওয়া)",
+                subtitle: "ঢাকা / নিজ শহর থেকে চকরিয়া বা কক্সবাজার",
+                cost: 1200,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-bus",
+                badge: "যাতায়াত"
+            },
+            {
+                id: 2,
+                title: "ফেরার টিকেট (পরিবর্তনশীল)",
+                subtitle: "কক্সবাজার থেকে ফেরা (ট্রেন বা বাস অপশন)",
+                cost: 750,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-train",
+                badge: "যাতায়াত (ফেরা)",
+                isReturn: true
+            },
+            {
+                id: 3,
+                title: "চকরিয়া ↔ মিরিঞ্জা লোকাল যাতায়াত",
+                subtitle: "চান্দের গাড়ি / মাহিন্দ্রা / সিএনজি ভাড়া",
+                cost: 150,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-jeep",
+                badge: "লোকাল ট্রান্সপোর্ট"
+            },
+            {
+                id: 4,
+                title: "মিরিঞ্জা থেকে কক্সবাজার যাতায়াত",
+                subtitle: "লোকাল বাস / সিএনজি যোগে কক্সবাজার শহর",
+                cost: 120,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-taxi",
+                badge: "হাইওয়ে ট্রান্সপোর্ট"
+            },
+            {
+                id: 5,
+                title: "কক্সবাজার লোকাল যাতায়াত",
+                subtitle: "বিচে যাওয়া-আসা, ইজিবাইক / অটোরিকশা ভাড়া",
+                cost: 100,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-bicycle",
+                badge: "লোকাল ঘুরাঘুরি"
+            },
+            {
+                id: 6,
+                title: "মিরিঞ্জা ভ্যালি ক্যাম্পিং ও তাঁবু",
+                subtitle: "পাহাড়ে রাত্রিযাপন, তাঁবু / কটেজ ও ভিউপয়েন্ট সার্ভিস",
+                cost: 1675,
+                category: "stay",
+                categoryName: "থাকা ও ক্যাম্পিং",
+                icon: "ph-tent",
+                badge: "মিরিঞ্জা স্টে"
+            },
+            {
+                id: 7,
+                title: "কক্সবাজার হোটেল রুম",
+                subtitle: "হোটেল রুম বুকিং (৪ জনের শেয়ারিং ডিলাক্স / স্ট্যান্ডার্ড)",
+                cost: 2500,
+                category: "stay",
+                categoryName: "থাকা ও ক্যাম্পিং",
+                icon: "ph-buildings",
+                badge: "কক্সবাজার স্টে"
+            },
+            {
+                id: 8,
+                title: "খাবার ও নাস্তা (কক্সবাজার ও পথিমধ্যে)",
+                subtitle: "যাত্রা পথে খাবার, সকালের নাস্তা ও দুপুরের লাঞ্চ",
+                cost: 600,
+                category: "food",
+                categoryName: "খাওয়া-দাওয়া",
+                icon: "ph-fork-knife",
+                badge: "খাবার"
+            },
+            {
+                id: 9,
+                title: "স্পেশাল বারবিকিউ ও সি-ফুড ডিনার",
+                subtitle: "মিরিঞ্জায় বারবিকিউ নাইট বা কক্সবাজারে স্পেশাল ফিশ ডিনার",
+                cost: 200,
+                category: "food",
+                categoryName: "খাওয়া-দাওয়া",
+                icon: "ph-flame",
+                badge: "স্পেশাল ডিনার"
+            },
+            {
+                id: 10,
+                title: "এন্ট্রি ফি ও জরুরি অন্যান্য খরচ",
+                subtitle: "মিরিঞ্জা স্পট এন্ট্রি, বিচ কিটকট/চেয়ার ও আনুষঙ্গিক",
+                cost: 100,
+                category: "other",
+                categoryName: "অন্যান্য",
+                icon: "ph-ticket",
+                badge: "অন্যান্য"
+            }
+        ];
+
+        // Bengali number converter
+        const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        function toBnNum(num) {
+            return num.toString().replace(/\d/g, d => bnDigits[d]);
+        }
+
+        function formatTk(num) {
+            return '৳' + Number(num).toLocaleString('en-US');
+        }
+
+        // Member adjuster
+        function changeMembers(delta) {
+            const newCount = memberCount + delta;
+            if (newCount >= 1 && newCount <= 30) {
+                memberCount = newCount;
+                updateUI();
+            }
+        }
+
+        // Return Option Selector
+        function selectReturn(idx) {
+            selectedReturnIndex = idx;
+            updateUI();
+        }
+
+        // Buffer selector
+        function setBuffer(amt) {
+            bufferAmount = amt;
+            // update buffer buttons
+            [0, 300, 500].forEach(val => {
+                const btn = document.getElementById(`buf-${val}`);
+                if (btn) {
+                    if (val === amt) {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold num-font bg-purple-500 text-white transition";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-xl text-xs font-bold num-font bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+                    }
+                }
+            });
+            updateUI();
+        }
+
+        // Calculate Totals
+        function calculateCurrentTotals(returnIdx = selectedReturnIndex) {
+            const retCost = returnOptions[returnIdx].cost;
+            let transport = 0;
+            let stay = 0;
+            let food = 0;
+            let other = 0;
+
+            baseExpenses.forEach(item => {
+                let cost = item.cost;
+                if (item.isReturn) {
+                    cost = retCost;
+                }
+                if (item.category === 'transport') transport += cost;
+                else if (item.category === 'stay') stay += cost;
+                else if (item.category === 'food') food += cost;
+                else other += cost;
+            });
+
+            const basePerPerson = transport + stay + food + other;
+            const perPerson = basePerPerson + bufferAmount;
+            const groupTotal = perPerson * memberCount;
+
+            return {
+                transport,
+                stay,
+                food,
+                other,
+                basePerPerson,
+                perPerson,
+                groupTotal
+            };
+        }
+
+        // Render UI
+        function updateUI() {
+            const totals = calculateCurrentTotals();
+
+            // 1. Members
+            document.getElementById('member-count-bn').textContent = toBnNum(memberCount);
+            document.getElementById('group-card-title').textContent = `${toBnNum(memberCount)} জনের মোট বাজেট`;
+            document.getElementById('group-calc-formula').textContent = `${formatTk(totals.perPerson)} × ${memberCount} জন`;
+            document.getElementById('table-member-label').textContent = `${toBnNum(memberCount)} জন`;
+
+            // 2. Summary Cards
+            document.getElementById('per-person-total').textContent = formatTk(totals.perPerson);
+            document.getElementById('group-total').textContent = formatTk(totals.groupTotal);
+            document.getElementById('selected-return-label').textContent = returnOptions[selectedReturnIndex].label;
+
+            const bufIndicator = document.getElementById('buffer-indicator');
+            if (bufferAmount > 0) {
+                bufIndicator.textContent = `(+৳${bufferAmount} বাফার)`;
+            } else {
+                bufIndicator.textContent = '';
+            }
+
+            // 3. Return Options Buttons Style
+            returnOptions.forEach((opt, idx) => {
+                const btn = document.getElementById(`ret-btn-${idx}`);
+                if (!btn) return;
+                if (idx === selectedReturnIndex) {
+                    btn.className = "return-btn text-left p-3.5 rounded-xl border transition-all flex items-center justify-between sm:flex-col sm:items-start gap-2 bg-emerald-500/20 border-emerald-400 text-white shadow-lg";
+                } else {
+                    btn.className = "return-btn text-left p-3.5 rounded-xl border transition-all flex items-center justify-between sm:flex-col sm:items-start gap-2 bg-slate-800/60 border-slate-700 text-slate-300 hover:bg-slate-800";
+                }
+            });
+
+            // 4. Categories
+            const totalForPct = totals.perPerson;
+            const transportPct = Math.round((totals.transport / totalForPct) * 100);
+            const stayPct = Math.round((totals.stay / totalForPct) * 100);
+
+            document.getElementById('cat-transport').textContent = formatTk(totals.transport);
+            document.getElementById('cat-transport-pct').textContent = `${transportPct}% খরচ`;
+
+            document.getElementById('cat-stay').textContent = formatTk(totals.stay);
+            document.getElementById('cat-stay-pct').textContent = `${stayPct}% খরচ`;
+
+            document.getElementById('cat-food').textContent = formatTk(totals.food);
+
+            // 5. Render Expense List
+            renderExpenseList();
+
+            // 6. Render Comparison Table
+            renderComparisonTable();
+        }
+
+        function renderExpenseList() {
+            const listEl = document.getElementById('expense-list');
+            if (!listEl) return;
+
+            const retOpt = returnOptions[selectedReturnIndex];
+
+            listEl.innerHTML = baseExpenses.map((item, index) => {
+                let cost = item.cost;
+                let title = item.title;
+                let subtitle = item.subtitle;
+                let icon = item.icon;
+
+                if (item.isReturn) {
+                    cost = retOpt.cost;
+                    title = `ফেরার টিকেট (${retOpt.name})`;
+                    subtitle = `কক্সবাজার থেকে ফেরা • ${retOpt.note}`;
+                    icon = retOpt.icon;
+                }
+
+                const groupCost = cost * memberCount;
+
+                return `
+                    <div class="item-row glass-card p-3.5 sm:p-4 rounded-2xl flex items-center justify-between gap-3 border border-slate-700/50">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-teal-400 text-xl shrink-0">
+                                <i class="ph-bold ${icon}"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <span class="font-bold text-white text-sm sm:text-base">${title}</span>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700">${item.badge}</span>
+                                </div>
+                                <div class="text-xs text-slate-400 mt-0.5">${subtitle}</div>
+                            </div>
+                        </div>
+                        <div class="text-right shrink-0">
+                            <div class="text-base sm:text-lg font-bold text-white num-font">${formatTk(cost)}</div>
+                            <div class="text-[11px] text-slate-400 num-font">${memberCount} জনের: <span class="text-amber-300 font-semibold">${formatTk(groupCost)}</span></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderComparisonTable() {
+            const tbody = document.getElementById('comparison-tbody');
+            if (!tbody) return;
+
+            tbody.innerHTML = returnOptions.map((opt, idx) => {
+                const totals = calculateCurrentTotals(idx);
+                const isSelected = idx === selectedReturnIndex;
+                const highlightClass = isSelected ? "bg-emerald-500/10 text-white font-bold" : "text-slate-300 hover:bg-slate-800/50";
+
+                return `
+                    <tr class="${highlightClass} transition cursor-pointer" onclick="selectReturn(${idx})">
+                        <td class="py-3 px-3 flex items-center gap-2">
+                            <i class="ph-fill ${opt.icon} ${isSelected ? 'text-emerald-400' : 'text-slate-400'}"></i>
+                            <span>${opt.name}</span>
+                            ${isSelected ? '<span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-1.5 py-0.5 rounded ml-1">সিলেক্টেড</span>' : ''}
+                        </td>
+                        <td class="py-3 px-3 text-slate-300">${formatTk(opt.cost)}</td>
+                        <td class="py-3 px-3 ${isSelected ? 'text-emerald-300 font-bold' : 'text-slate-200'}">${formatTk(totals.perPerson)}</td>
+                        <td class="py-3 px-3 text-right text-amber-300 font-bold">${formatTk(totals.groupTotal)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Toast Helper
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.textContent = msg;
+            toast.classList.remove('-translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('-translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // Copy / Share Text Builder
+        function getShareText() {
+            const totals = calculateCurrentTotals();
+            const currentUrl = window.location.href;
+
+            return `🎒 আমাদের মিরিঞ্জা ও কক্সবাজার ট্যুর বাজেট প্ল্যান 🌊🏕️
+
+👥 ট্যুর সদস্য: ${toBnNum(memberCount)} জন
+💰 জনপ্রতি আনুমানিক খরচ: ${formatTk(totals.perPerson)} (${returnOptions[selectedReturnIndex].name} অপশন)
+💵 দলের মোট বাজেট: ${formatTk(totals.groupTotal)}
+${bufferAmount > 0 ? `🛡️ জনপ্রতি জরুরি বাফার: +${formatTk(bufferAmount)}\n` : ''}
+📌 খরচ বিভাজন (জনপ্রতি):
+• যাতায়াত: ${formatTk(totals.transport)}
+• থাকা ও ক্যাম্পিং: ${formatTk(totals.stay)}
+• খাওয়া-দাওয়া: ${formatTk(totals.food)}
+• অন্যান্য এন্ট্রি: ${formatTk(totals.other)}
+
+🚌 ৩টি ফেরার অপশনের তুলনা (${toBnNum(memberCount)} জন):
+১. ট্রেন: জনপ্রতি ${formatTk(calculateCurrentTotals(0).perPerson)} (মোট ${formatTk(calculateCurrentTotals(0).groupTotal)})
+২. বাস ১: জনপ্রতি ${formatTk(calculateCurrentTotals(1).perPerson)} (মোট ${formatTk(calculateCurrentTotals(1).groupTotal)})
+৩. বাস ২: জনপ্রতি ${formatTk(calculateCurrentTotals(2).perPerson)} (মোট ${formatTk(calculateCurrentTotals(2).groupTotal)})
+
+🌐 লাইভ ক্যালকুলেটর দেখতে লিংকে ভিজিট করো:
+${currentUrl}`;
+        }
+
+        // Copy function
+        function copySummaryForFriends() {
+            const text = getShareText();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('হিসাব কপি করা হয়েছে! এখন বন্ধুদের মেসেঞ্জার বা হোয়াটসঅ্যাপে পেস্ট করুন।');
+                }).catch(() => {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast('হিসাব কপি করা হয়েছে! মেসেঞ্জারে পেস্ট করুন।');
+        }
+
+        // Native Web Share API
+        function shareViaApp() {
+            const text = getShareText();
+            if (navigator.share) {
+                navigator.share({
+                    title: 'মিরিঞ্জা ও কক্সবাজার ট্যুর বাজেট 🏕️🌊',
+                    text: text,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                copySummaryForFriends();
+            }
+        }
+
+        // Initialize UI
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+        });
+    </script>
+</body>
+</html>
