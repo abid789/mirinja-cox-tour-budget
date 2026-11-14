@@ -8,7 +8,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏕️</text></svg>">
     <!-- Meta tags for social share -->
     <meta property="og:title" content="আমাদের ট্যুর বাজেট - মিরিঞ্জা ও কক্সবাজার 🏕️🌊">
-    <meta property="og:description" content="মিরিঞ্জা ভ্যালি ও কক্সবাজার ট্যুরের সম্পূর্ণ খরচের হিসাব ও লাইভ বাজেট ক্যালকুলেটর।">
+    <meta property="og:description" content="মিরিঞ্জা ভ্যালি, গ্রেস কক্স ও ক্যাম্পিং কক্স ট্যুরের সম্পূর্ণ খরচের লাইভ বাজেট ক্যালকুলেটর।">
     <meta property="og:type" content="website">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -242,8 +242,8 @@
                     <i class="ph-fill ph-bus"></i>
                     <span>যাতায়াত</span>
                 </div>
-                <div class="text-lg sm:text-xl font-bold text-white num-font mt-1" id="cat-transport">৳2,320</div>
-                <div class="text-[11px] text-slate-400" id="cat-transport-pct">31% খরচ</div>
+                <div class="text-lg sm:text-xl font-bold text-white num-font mt-1" id="cat-transport">৳2,420</div>
+                <div class="text-[11px] text-slate-400" id="cat-transport-pct">33% খরচ</div>
             </div>
 
             <div class="glass-card rounded-2xl p-3 sm:p-4 border-l-4 border-l-emerald-400">
@@ -276,13 +276,13 @@
                     <p class="text-xs text-slate-400">নিচের প্রতিটি হিসাব ১ জনের (জনপ্রতি) এবং পাশে মোট দলের হিসাব দেওয়া আছে</p>
                 </div>
                 <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                    মোট ১০টি খাত
+                    নির্দিষ্ট ১০টি খাত
                 </span>
             </div>
 
             <!-- Expense List Container -->
             <div id="expense-list" class="space-y-2.5">
-                <!-- Populated by JavaScript -->
+                <!-- Populated dynamically by JavaScript -->
             </div>
 
             <!-- Extra Pocket Money / Emergency Buffer Toggle -->
@@ -293,7 +293,7 @@
                     </div>
                     <div>
                         <div class="text-sm font-bold text-white">হাতখরচ / জরুরি বাফার যোগ করবেন? (ঐচ্ছিক)</div>
-                        <div class="text-xs text-slate-400">চা-নাস্তা বা এক্সট্রা খরচের জন্য জনপ্রতি অতিরিক্ত টাকা</div>
+                        <div class="text-xs text-slate-400">চা-নাস্তা বা ব্যক্তিগত খরচের জন্য জনপ্রতি অতিরিক্ত টাকা</div>
                     </div>
                 </div>
                 <div class="flex items-center gap-1.5 self-end sm:self-center">
@@ -340,7 +340,7 @@
         </section>
 
         <footer class="text-center text-xs text-slate-500 mt-8">
-            মিরিঞ্জা হিল ও কক্সবাজার ট্যুর প্ল্যানার • বন্ধুদের সাথে শেয়ার করার জন্য তৈরি 🎒
+            মিরিঞ্জা হিল, গ্রেস কক্স ও ক্যাম্পিং কক্স ট্যুর প্ল্যানার • বন্ধুদের সাথে শেয়ার করার জন্য তৈরি 🎒
         </footer>
     </div>
 
@@ -356,12 +356,12 @@
             { label: "বাস (৳1,100)", name: "বাস (অপশন ২)", note: "স্ট্যান্ডার্ড বাস টিকেট", cost: 1100, icon: "ph-bus", colorClass: "text-amber-300" }
         ];
 
-        // 10 Base Expense Items (Per Person)
+        // The EXACT 10 user-specified expense items (Per Person)
         const baseExpenses = [
             {
                 id: 1,
                 title: "বাস ভাড়া (যাওয়া)",
-                subtitle: "ঢাকা / নিজ শহর থেকে চকরিয়া বা কক্সবাজার",
+                subtitle: "যাত্রা শুরু থেকে চকরিয়া / গন্তব্য",
                 cost: 1200,
                 category: "transport",
                 categoryName: "যাতায়াত",
@@ -370,94 +370,94 @@
             },
             {
                 id: 2,
-                title: "ফেরার টিকেট (পরিবর্তনশীল)",
-                subtitle: "কক্সবাজার থেকে ফেরা (ট্রেন বা বাস অপশন)",
+                title: "বাইক ভাড়া",
+                subtitle: "মিরিঞ্জা পাহাড়ে ওঠা/নামা ও লোকাল ট্রান্সপোর্ট",
+                cost: 100,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-motorcycle",
+                badge: "লোকাল যাতায়াত"
+            },
+            {
+                id: 3,
+                title: "মারাঞ্ছা হিল (Marancha Hill)",
+                subtitle: "মিরিঞ্জা পাহাড়ে ভ্যালি ভিউ ও রাত্রিযাপন",
+                cost: 1125,
+                category: "stay",
+                categoryName: "থাকা ও ক্যাম্পিং",
+                icon: "ph-mountains",
+                badge: "মিরিঞ্জা স্টে"
+            },
+            {
+                id: 4,
+                title: "৩ বেলা খাওয়া",
+                subtitle: "ট্যুরের মূল ৩ বেলার আহার (প্যাকেজ বাদে)",
+                cost: 800,
+                category: "food",
+                categoryName: "খাওয়া-দাওয়া",
+                icon: "ph-bowl-food",
+                badge: "খাবার"
+            },
+            {
+                id: 5,
+                title: "মিরিঞ্জা থেকে কক্সবাজার ভাড়া",
+                subtitle: "পাহাড়ি ভ্যালি থেকে কক্সবাজার যাওয়ার গাড়ি ভাড়া",
+                cost: 170,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-jeep",
+                badge: "হাইওয়ে ট্রান্সপোর্ট"
+            },
+            {
+                id: 6,
+                title: "গ্রেস কক্স (Grace Cox)",
+                subtitle: "১ রাত রাত্রিযাপন (সকালের ব্রেকফাস্ট সহ)",
+                cost: 1250,
+                category: "stay",
+                categoryName: "থাকা ও ক্যাম্পিং",
+                icon: "ph-buildings",
+                badge: "হোটেল স্টে"
+            },
+            {
+                id: 7,
+                title: "গ্রেস কক্স থেকে ক্যাম্পিং কক্স ভাড়া",
+                subtitle: "হোটেল থেকে বিচ ক্যাম্পিং স্পটে যাতায়াত",
+                cost: 100,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-taxi",
+                badge: "লোকাল ট্রান্সপোর্ট"
+            },
+            {
+                id: 8,
+                title: "ক্যাম্পিং কক্স (Campin Cox)",
+                subtitle: "১ দিন ক্যাম্পিং (৩ বেলা খাবার সহ সম্পূর্ণ প্যাকেজ)",
+                cost: 1800,
+                category: "stay",
+                categoryName: "থাকা ও ক্যাম্পিং",
+                icon: "ph-tent",
+                badge: "বিচ ক্যাম্পিং"
+            },
+            {
+                id: 9,
+                title: "ক্যাম্পিং কক্স থেকে কলাতলী",
+                subtitle: "ক্যাম্পিং স্পট থেকে কলাতলী বিচ পয়েন্ট ভাড়া",
+                cost: 100,
+                category: "transport",
+                categoryName: "যাতায়াত",
+                icon: "ph-car",
+                badge: "লোকাল ট্রান্সপোর্ট"
+            },
+            {
+                id: 10,
+                title: "ফেরার টিকেট (ট্রেন / বাস)",
+                subtitle: "কক্সবাজার থেকে ফেরা (ট্রেন না পেলে বাস)",
                 cost: 750,
                 category: "transport",
                 categoryName: "যাতায়াত",
                 icon: "ph-train",
-                badge: "যাতায়াত (ফেরা)",
+                badge: "ফেরা (পরিবর্তনশীল)",
                 isReturn: true
-            },
-            {
-                id: 3,
-                title: "চকরিয়া ↔ মিরিঞ্জা লোকাল যাতায়াত",
-                subtitle: "চান্দের গাড়ি / মাহিন্দ্রা / সিএনজি ভাড়া",
-                cost: 150,
-                category: "transport",
-                categoryName: "যাতায়াত",
-                icon: "ph-jeep",
-                badge: "লোকাল ট্রান্সপোর্ট"
-            },
-            {
-                id: 4,
-                title: "মিরিঞ্জা থেকে কক্সবাজার যাতায়াত",
-                subtitle: "লোকাল বাস / সিএনজি যোগে কক্সবাজার শহর",
-                cost: 120,
-                category: "transport",
-                categoryName: "যাতায়াত",
-                icon: "ph-taxi",
-                badge: "হাইওয়ে ট্রান্সপোর্ট"
-            },
-            {
-                id: 5,
-                title: "কক্সবাজার লোকাল যাতায়াত",
-                subtitle: "বিচে যাওয়া-আসা, ইজিবাইক / অটোরিকশা ভাড়া",
-                cost: 100,
-                category: "transport",
-                categoryName: "যাতায়াত",
-                icon: "ph-bicycle",
-                badge: "লোকাল ঘুরাঘুরি"
-            },
-            {
-                id: 6,
-                title: "মিরিঞ্জা ভ্যালি ক্যাম্পিং ও তাঁবু",
-                subtitle: "পাহাড়ে রাত্রিযাপন, তাঁবু / কটেজ ও ভিউপয়েন্ট সার্ভিস",
-                cost: 1675,
-                category: "stay",
-                categoryName: "থাকা ও ক্যাম্পিং",
-                icon: "ph-tent",
-                badge: "মিরিঞ্জা স্টে"
-            },
-            {
-                id: 7,
-                title: "কক্সবাজার হোটেল রুম",
-                subtitle: "হোটেল রুম বুকিং (৪ জনের শেয়ারিং ডিলাক্স / স্ট্যান্ডার্ড)",
-                cost: 2500,
-                category: "stay",
-                categoryName: "থাকা ও ক্যাম্পিং",
-                icon: "ph-buildings",
-                badge: "কক্সবাজার স্টে"
-            },
-            {
-                id: 8,
-                title: "খাবার ও নাস্তা (কক্সবাজার ও পথিমধ্যে)",
-                subtitle: "যাত্রা পথে খাবার, সকালের নাস্তা ও দুপুরের লাঞ্চ",
-                cost: 600,
-                category: "food",
-                categoryName: "খাওয়া-দাওয়া",
-                icon: "ph-fork-knife",
-                badge: "খাবার"
-            },
-            {
-                id: 9,
-                title: "স্পেশাল বারবিকিউ ও সি-ফুড ডিনার",
-                subtitle: "মিরিঞ্জায় বারবিকিউ নাইট বা কক্সবাজারে স্পেশাল ফিশ ডিনার",
-                cost: 200,
-                category: "food",
-                categoryName: "খাওয়া-দাওয়া",
-                icon: "ph-flame",
-                badge: "স্পেশাল ডিনার"
-            },
-            {
-                id: 10,
-                title: "এন্ট্রি ফি ও জরুরি অন্যান্য খরচ",
-                subtitle: "মিরিঞ্জা স্পট এন্ট্রি, বিচ কিটকট/চেয়ার ও আনুষঙ্গিক",
-                cost: 100,
-                category: "other",
-                categoryName: "অন্যান্য",
-                icon: "ph-ticket",
-                badge: "অন্যান্য"
             }
         ];
 
@@ -509,7 +509,6 @@
             let transport = 0;
             let stay = 0;
             let food = 0;
-            let other = 0;
 
             baseExpenses.forEach(item => {
                 let cost = item.cost;
@@ -519,10 +518,9 @@
                 if (item.category === 'transport') transport += cost;
                 else if (item.category === 'stay') stay += cost;
                 else if (item.category === 'food') food += cost;
-                else other += cost;
             });
 
-            const basePerPerson = transport + stay + food + other;
+            const basePerPerson = transport + stay + food;
             const perPerson = basePerPerson + bufferAmount;
             const groupTotal = perPerson * memberCount;
 
@@ -530,7 +528,6 @@
                 transport,
                 stay,
                 food,
-                other,
                 basePerPerson,
                 perPerson,
                 groupTotal
@@ -685,18 +682,24 @@
 💰 জনপ্রতি আনুমানিক খরচ: ${formatTk(totals.perPerson)} (${returnOptions[selectedReturnIndex].name} অপশন)
 💵 দলের মোট বাজেট: ${formatTk(totals.groupTotal)}
 ${bufferAmount > 0 ? `🛡️ জনপ্রতি জরুরি বাফার: +${formatTk(bufferAmount)}\n` : ''}
-📌 খরচ বিভাজন (জনপ্রতি):
-• যাতায়াত: ${formatTk(totals.transport)}
-• থাকা ও ক্যাম্পিং: ${formatTk(totals.stay)}
-• খাওয়া-দাওয়া: ${formatTk(totals.food)}
-• অন্যান্য এন্ট্রি: ${formatTk(totals.other)}
+📋 নিখুঁত খরচের তালিকা (জনপ্রতি):
+১. বাস ভাড়া (যাওয়া): ৳১,২০০
+২. বাইক ভাড়া: ৳১০০
+৩. মারাঞ্ছা হিল স্টে: ৳১,১২৫
+৪. ৩ বেলা খাওয়া: ৳৮০০
+৫. মিরিঞ্জা থেকে কক্সবাজার ভাড়া: ৳১৭০
+৬. গ্রেস কক্স (১ রাত + ব্রেকফাস্ট): ৳১,২৫০
+৭. গ্রেস কক্স থেকে ক্যাম্পিং কক্স: ৳১০০
+৮. ক্যাম্পিং কক্স (১ দিন + ৩ বেলা খাওয়া): ৳১,৮০০
+৯. ক্যাম্পিং কক্স থেকে কলাতলী: ৳১০০
+১০. ফেরার টিকেট: ${formatTk(returnOptions[selectedReturnIndex].cost)}
 
 🚌 ৩টি ফেরার অপশনের তুলনা (${toBnNum(memberCount)} জন):
-১. ট্রেন: জনপ্রতি ${formatTk(calculateCurrentTotals(0).perPerson)} (মোট ${formatTk(calculateCurrentTotals(0).groupTotal)})
-২. বাস ১: জনপ্রতি ${formatTk(calculateCurrentTotals(1).perPerson)} (মোট ${formatTk(calculateCurrentTotals(1).groupTotal)})
-৩. বাস ২: জনপ্রতি ${formatTk(calculateCurrentTotals(2).perPerson)} (মোট ${formatTk(calculateCurrentTotals(2).groupTotal)})
+• ট্রেন (৳৭৫০): জনপ্রতি ${formatTk(calculateCurrentTotals(0).perPerson)} (মোট ${formatTk(calculateCurrentTotals(0).groupTotal)})
+• বাস ১ (৳১,০০০): জনপ্রতি ${formatTk(calculateCurrentTotals(1).perPerson)} (মোট ${formatTk(calculateCurrentTotals(1).groupTotal)})
+• বাস ২ (৳১,১০০): জনপ্রতি ${formatTk(calculateCurrentTotals(2).perPerson)} (মোট ${formatTk(calculateCurrentTotals(2).groupTotal)})
 
-🌐 লাইভ ক্যালকুলেটর দেখতে লিংকে ভিজিট করো:
+🌐 লাইভ ক্যালকুলেটরে দেখতে লিংকে ক্লিক করো:
 ${currentUrl}`;
         }
 
